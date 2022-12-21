@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = 'https://pixabay.com/api/';
 
-export default async function fetchPictures(input, count) {
+export async function fetchPictures(input, count) {
   const response = await axios.get(BASE_URL, {
     params: {
       key: '31296497-f77e3cd3a2890044dbd34d20b',
@@ -14,6 +14,5 @@ export default async function fetchPictures(input, count) {
     },
   });
 
-  console.log(response.data);
-  return response.data;
+  return response.data.hits;
 }
