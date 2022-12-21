@@ -1,10 +1,13 @@
 import React from 'react';
 import fetchPictures from 'utils/api';
+import Searchbar from 'components/Searchbar/Searchbar';
+
 export class App extends React.Component {
   state = {
     pictures: [],
     isLoading: false,
     error: null,
+    searchQuery: '',
   };
 
   async componentDidMount() {
@@ -22,7 +25,15 @@ export class App extends React.Component {
     }
   }
 
+  registerSearchQuery = value => {
+    this.setState({ searchQuery: value });
+  };
+
   render() {
-    return <div></div>;
+    return (
+      <div>
+        <Searchbar onSubmit={this.registerSearchQuery} />
+      </div>
+    );
   }
 }
