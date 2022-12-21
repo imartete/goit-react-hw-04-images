@@ -1,5 +1,5 @@
-# goit-react-hw-02-feedback
+# goit-react-hw-03-image-finder
 
-Homework 02
+Homework 03
 
-[GitHub Pages](https://imartete.github.io/goit-react-hw-02-feedback/)
+[GitHub Pages](https://imartete.github.io/goit-react-hw-03-image-finder/)
