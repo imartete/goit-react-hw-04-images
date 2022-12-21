@@ -12,13 +12,18 @@ export default class Searchbar extends React.Component {
 
   handleChange = event => {
     this.setState({
-      searchQuery: event.target.value,
+      searchQuery: event.currentTarget.value,
     });
   };
 
   handleSubmit = event => {
     event.preventDefault();
+    if (this.state.searchQuery.trim() === '') {
+      alert("You didn't enter search query!");
+      return;
+    }
     this.props.onSubmit(this.state.searchQuery);
+    this.setState({ searchQuery: '' });
     event.currentTarget.reset();
   };
 
@@ -43,6 +48,6 @@ export default class Searchbar extends React.Component {
   }
 }
 
-// Searchbar.propTypes = {
-//   onSubmit: PropTypes.func.isRequired,
-// };
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
