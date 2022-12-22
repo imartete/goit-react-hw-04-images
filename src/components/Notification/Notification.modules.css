@@ -1,0 +1,11 @@
+.placeholder {
+  margin: 0 auto;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 800px;
+  width: 470px;
+  color: #eaeaea;
+  background-image: url('https://cdn.memes.com/up/58630471641107073/i/1641125828597.jpg');
+}

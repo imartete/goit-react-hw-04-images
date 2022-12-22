@@ -6,6 +6,7 @@ import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
 import { Modal } from 'components/Modal/Modal';
 import { Section } from 'components/Section/Section';
+import { Notification } from 'components/Notification/Notification';
 
 export class App extends React.Component {
   state = {
@@ -108,7 +109,11 @@ export class App extends React.Component {
       <div>
         <Searchbar onSubmit={this.registerSearchQuery} />
         {isLoading && <Loader />}
-        {!pictures.length && searchQuery && <p>No images found</p>}
+        {!pictures.length && searchQuery && (
+          <Section>
+            <Notification />
+          </Section>
+        )}
         {picturesExist && (
           <Section>
             <ImageGallery images={pictures} getId={this.handleImageClick} />
