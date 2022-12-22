@@ -52,13 +52,14 @@ export class App extends React.Component {
   }
 
   render() {
-    const { pictures } = this.state;
+    const { pictures, isLoading } = this.state;
     const picturesExist = pictures.length > 0;
     // TODO find out when end of the array
     return (
       <div>
         <Searchbar onSubmit={this.registerSearchQuery} />
-        {this.state.isLoading ? <Loader /> : <ImageGallery images={pictures} />}
+        {isLoading && <Loader />}
+        <ImageGallery images={pictures} />
         {picturesExist && <Button onClick={this.handlePagination}></Button>}
       </div>
     );
