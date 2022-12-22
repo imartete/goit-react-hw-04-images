@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'styles.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class Searchbar extends React.Component {
   state = {
@@ -11,6 +13,8 @@ export default class Searchbar extends React.Component {
     onSubmit: PropTypes.func.isRequired,
   };
 
+  notify = () => toast('Please, enter your search keyword!');
+
   handleChange = event => {
     this.setState({
       searchQuery: event.currentTarget.value,
@@ -20,7 +24,8 @@ export default class Searchbar extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     if (this.state.searchQuery.trim() === '') {
-      alert("You didn't enter search query!");
+      this.notify();
+      // alert("You didn't enter search query!");
       return;
     }
     this.props.onSubmit(this.state.searchQuery);
@@ -59,6 +64,7 @@ export default class Searchbar extends React.Component {
             onChange={this.handleChange}
           />
         </form>
+        <ToastContainer />
       </header>
     );
   }
