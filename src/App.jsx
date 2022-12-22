@@ -1,9 +1,10 @@
 import React from 'react';
-import { fetchPictures } from 'utils/api';
+import { fetchPictures, fetchPictureById } from 'utils/api';
 import Searchbar from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
+import { Modal } from 'components/Modal/Modal';
 
 export class App extends React.Component {
   state = {
@@ -12,18 +13,25 @@ export class App extends React.Component {
     error: null,
     searchQuery: '',
     page: 1,
+    id: null,
   };
 
-  registerSearchQuery = value => {
-    this.setState({ searchQuery: value });
+  registerSearchQuery = searchQuery => {
+    this.setState({ searchQuery });
   };
 
   handlePagination = () => {
     this.setState({ page: this.state.page + 1 });
   };
 
+  handleImageClick = id => {
+    this.setState({
+      id,
+    });
+  };
+
   async componentDidUpdate(prevProps, prevState) {
-    const { searchQuery, pictures, page } = this.state;
+    const { searchQuery, pictures, page, id } = this.state;
 
     if (searchQuery !== prevState.searchQuery) {
       this.setState({ isLoading: true });
@@ -38,11 +46,27 @@ export class App extends React.Component {
     }
 
     if (page !== prevState.page) {
+      this.setState({ isLoading: true });
       try {
         const morePictures = await fetchPictures(searchQuery, page);
         this.setState({
           pictures: [...pictures, ...morePictures],
         });
+      } catch (error) {
+        this.setState({ error });
+      } finally {
+        this.setState({ isLoading: false });
+      }
+    }
+
+    if (id !== prevState.id) {
+      this.setState({ isLoading: true });
+      try {
+        const picture = await fetchPictureById(id);
+        console.log(picture);
+        // this.setState({
+        //   pictures: [...pictures, ...morePictures],
+        // });
       } catch (error) {
         this.setState({ error });
       } finally {
@@ -59,7 +83,7 @@ export class App extends React.Component {
       <div>
         <Searchbar onSubmit={this.registerSearchQuery} />
         {isLoading && <Loader />}
-        <ImageGallery images={pictures} />
+        <ImageGallery images={pictures} getId={this.handleImageClick} />
         {picturesExist && <Button onClick={this.handlePagination}></Button>}
       </div>
     );

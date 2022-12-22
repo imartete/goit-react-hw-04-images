@@ -13,6 +13,18 @@ export async function fetchPictures(input, page) {
       page: page,
     },
   });
+
+  return response.data.hits;
+}
+
+export async function fetchPictureById(id) {
+  const response = await axios.get(BASE_URL, {
+    params: {
+      key: '31296497-f77e3cd3a2890044dbd34d20b',
+      id: id,
+    },
+  });
+
   console.log(response.data.hits);
   return response.data.hits;
 }
