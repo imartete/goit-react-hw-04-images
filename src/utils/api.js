@@ -25,6 +25,5 @@ export async function fetchPictureById(id) {
     },
   });
 
-  console.log(response.data.hits);
   return response.data.hits;
 }

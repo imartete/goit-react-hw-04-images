@@ -27,7 +27,13 @@ export class Modal extends React.Component {
     return (
       <div className="Overlay" onClick={this.handleOverlayClick}>
         <div className="Modal">
-          <img src="" alt="" />
+          {this.props.pictureArr.map(picture => (
+            <img
+              key={picture.id}
+              src={picture.largeImageURL}
+              alt={picture.tags}
+            />
+          ))}
         </div>
       </div>
     );
