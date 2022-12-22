@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import 'styles.css';
 
 export const ImageGallery = ({ images, getId }) => {
   return (
-    <ul>
+    <ul className="ImageGallery">
       {images.map(image => (
         <ImageGalleryItem
           key={image.id}
