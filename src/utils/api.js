@@ -14,7 +14,7 @@ export async function fetchPictures(input, page) {
     },
   });
 
-  return response.data.hits;
+  return response.data;
 }
 
 export async function fetchPictureById(id) {

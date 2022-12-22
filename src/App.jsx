@@ -17,6 +17,7 @@ export class App extends React.Component {
     id: null,
     showModal: false,
     picture: [],
+    totalPages: null,
   };
 
   registerSearchQuery = searchQuery => {
@@ -48,7 +49,11 @@ export class App extends React.Component {
       this.setState({ isLoading: true });
       try {
         const pictures = await fetchPictures(searchQuery, page);
-        this.setState({ pictures });
+        this.setState({
+          pictures: pictures.hits,
+          totalPages: pictures.totalHits,
+        });
+        console.log(this.state);
       } catch (error) {
         this.setState({ error });
       } finally {
@@ -61,7 +66,7 @@ export class App extends React.Component {
       try {
         const morePictures = await fetchPictures(searchQuery, page);
         this.setState({
-          pictures: [...pictures, ...morePictures],
+          pictures: [...pictures, ...morePictures.hits],
         });
       } catch (error) {
         this.setState({ error });
@@ -86,18 +91,21 @@ export class App extends React.Component {
   }
 
   render() {
-    const { pictures, isLoading, showModal, picture } = this.state;
+    const { pictures, isLoading, showModal, picture, totalPages, page } =
+      this.state;
     const picturesExist = pictures.length > 0;
+    const onLastPage = page < totalPages / 12;
 
-    // TODO find out when end of the array
     return (
       <div>
         <Searchbar onSubmit={this.registerSearchQuery} />
         {isLoading && <Loader />}
-        <Section>
-          <ImageGallery images={pictures} getId={this.handleImageClick} />
-        </Section>
         {picturesExist && (
+          <Section>
+            <ImageGallery images={pictures} getId={this.handleImageClick} />
+          </Section>
+        )}
+        {picturesExist && onLastPage && (
           <Section>
             <Button onClick={this.handlePagination}></Button>
           </Section>
