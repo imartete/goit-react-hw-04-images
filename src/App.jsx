@@ -14,6 +14,7 @@ export class App extends React.Component {
     searchQuery: '',
     page: 1,
     id: null,
+    showModal: false,
   };
 
   registerSearchQuery = searchQuery => {
@@ -27,6 +28,13 @@ export class App extends React.Component {
   handleImageClick = id => {
     this.setState({
       id,
+      showModal: !this.state.showModal,
+    });
+  };
+
+  toggleModal = () => {
+    this.setState({
+      showModal: !this.state.showModal,
     });
   };
 
@@ -63,10 +71,10 @@ export class App extends React.Component {
       this.setState({ isLoading: true });
       try {
         const picture = await fetchPictureById(id);
-        console.log(picture);
-        // this.setState({
-        //   pictures: [...pictures, ...morePictures],
-        // });
+        this.setState({
+          picture: picture[0],
+        });
+        console.log(this.state.picture);
       } catch (error) {
         this.setState({ error });
       } finally {
@@ -76,7 +84,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { pictures, isLoading } = this.state;
+    const { pictures, isLoading, showModal, picture } = this.state;
     const picturesExist = pictures.length > 0;
     // TODO find out when end of the array
     return (
@@ -85,6 +93,7 @@ export class App extends React.Component {
         {isLoading && <Loader />}
         <ImageGallery images={pictures} getId={this.handleImageClick} />
         {picturesExist && <Button onClick={this.handlePagination}></Button>}
+        {showModal && <Modal handleClose={this.toggleModal} />}
       </div>
     );
   }
