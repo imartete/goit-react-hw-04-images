@@ -54,7 +54,6 @@ export class App extends React.Component {
           pictures: pictures.hits,
           totalPages: pictures.totalHits,
         });
-        console.log(this.state);
       } catch (error) {
         this.setState({ error });
       } finally {

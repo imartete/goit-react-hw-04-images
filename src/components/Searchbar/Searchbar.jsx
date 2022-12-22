@@ -25,7 +25,6 @@ export default class Searchbar extends React.Component {
     event.preventDefault();
     if (this.state.searchQuery.trim() === '') {
       this.notify();
-      // alert("You didn't enter search query!");
       return;
     }
     this.props.onSubmit(this.state.searchQuery);
