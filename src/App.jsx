@@ -5,6 +5,7 @@ import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
 import { Modal } from 'components/Modal/Modal';
+import { Section } from 'components/Section/Section';
 
 export class App extends React.Component {
   state = {
@@ -93,8 +94,14 @@ export class App extends React.Component {
       <div>
         <Searchbar onSubmit={this.registerSearchQuery} />
         {isLoading && <Loader />}
-        <ImageGallery images={pictures} getId={this.handleImageClick} />
-        {picturesExist && <Button onClick={this.handlePagination}></Button>}
+        <Section>
+          <ImageGallery images={pictures} getId={this.handleImageClick} />
+        </Section>
+        {picturesExist && (
+          <Section>
+            <Button onClick={this.handlePagination}></Button>
+          </Section>
+        )}
         {showModal && (
           <Modal handleClose={this.toggleModal} pictureArr={picture} />
         )}
