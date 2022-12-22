@@ -91,21 +91,30 @@ export class App extends React.Component {
   }
 
   render() {
-    const { pictures, isLoading, showModal, picture, totalPages, page } =
-      this.state;
+    const {
+      pictures,
+      isLoading,
+      showModal,
+      picture,
+      totalPages,
+      page,
+      searchQuery,
+    } = this.state;
+
     const picturesExist = pictures.length > 0;
-    const onLastPage = page < totalPages / 12;
+    const notOnLastPage = page < totalPages / 12;
 
     return (
       <div>
         <Searchbar onSubmit={this.registerSearchQuery} />
         {isLoading && <Loader />}
+        {!pictures.length && searchQuery && <p>No images found</p>}
         {picturesExist && (
           <Section>
             <ImageGallery images={pictures} getId={this.handleImageClick} />
           </Section>
         )}
-        {picturesExist && onLastPage && (
+        {picturesExist && notOnLastPage && (
           <Section>
             <Button onClick={this.handlePagination}></Button>
           </Section>
