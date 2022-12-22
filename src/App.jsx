@@ -3,6 +3,7 @@ import { fetchPictures } from 'utils/api';
 import Searchbar from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Loader } from 'components/Loader/Loader';
+import { Button } from 'components/Button/Button';
 
 export class App extends React.Component {
   state = {
@@ -17,19 +18,33 @@ export class App extends React.Component {
     this.setState({ searchQuery: value });
   };
 
+  handlePagination = () => {
+    this.setState({ page: this.state.page + 1 });
+  };
+
   async componentDidUpdate(prevProps, prevState) {
-    if (this.state.searchQuery !== prevState.searchQuery) {
+    const { searchQuery, pictures, page } = this.state;
+
+    if (searchQuery !== prevState.searchQuery) {
       this.setState({ isLoading: true });
-      console.log('Component Updated');
       try {
-        const pictures = await fetchPictures(
-          this.state.searchQuery,
-          this.state.page
-        );
+        const pictures = await fetchPictures(searchQuery, page);
         this.setState({ pictures });
       } catch (error) {
         this.setState({ error });
-        console.log(this.state.error);
+      } finally {
+        this.setState({ isLoading: false });
+      }
+    }
+
+    if (page !== prevState.page) {
+      try {
+        const morePictures = await fetchPictures(searchQuery, page);
+        this.setState({
+          pictures: [...pictures, ...morePictures],
+        });
+      } catch (error) {
+        this.setState({ error });
       } finally {
         this.setState({ isLoading: false });
       }
@@ -37,14 +52,14 @@ export class App extends React.Component {
   }
 
   render() {
+    const { pictures } = this.state;
+    const picturesExist = pictures.length > 0;
+    // TODO find out when end of the array
     return (
       <div>
         <Searchbar onSubmit={this.registerSearchQuery} />
-        {this.state.isLoading ? (
-          <Loader />
-        ) : (
-          <ImageGallery images={this.state.pictures} />
-        )}
+        {this.state.isLoading ? <Loader /> : <ImageGallery images={pictures} />}
+        {picturesExist && <Button onClick={this.handlePagination}></Button>}
       </div>
     );
   }

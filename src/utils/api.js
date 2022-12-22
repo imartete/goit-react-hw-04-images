@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = 'https://pixabay.com/api/';
 
-export async function fetchPictures(input, count) {
+export async function fetchPictures(input, page) {
   const response = await axios.get(BASE_URL, {
     params: {
       key: '31296497-f77e3cd3a2890044dbd34d20b',
@@ -10,9 +10,9 @@ export async function fetchPictures(input, count) {
       image_type: 'photo',
       orientation: 'horizontal',
       per_page: 12,
-      page: count,
+      page: page,
     },
   });
-
+  console.log(response.data.hits);
   return response.data.hits;
 }
