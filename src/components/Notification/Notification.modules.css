@@ -3,9 +3,9 @@
   display: block;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
-  height: 800px;
-  width: 470px;
+  background-size: 400px;
+  height: 500px;
+  width: 100%;
   color: #eaeaea;
   background-image: url('https://cdn.memes.com/up/58630471641107073/i/1641125828597.jpg');
 }

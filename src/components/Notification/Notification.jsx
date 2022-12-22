@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import './Notification.modules.css';
 
 export const Notification = () => {

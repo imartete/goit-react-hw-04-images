@@ -4,7 +4,7 @@ import 'styles.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default class Searchbar extends React.Component {
+export class Searchbar extends React.Component {
   state = {
     searchQuery: '',
   };
