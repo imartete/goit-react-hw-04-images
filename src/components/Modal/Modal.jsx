@@ -9,6 +9,17 @@ export class Modal extends React.Component {
     }
   };
 
+  static propTypes = {
+    handleClose: PropTypes.func.isRequired,
+    pictureArr: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        largeImageURL: PropTypes.string.isRequired,
+        tags: PropTypes.string,
+      }).isRequired
+    ).isRequired,
+  };
+
   handleOverlayClick = event => {
     if (event.currentTarget === event.target) {
       this.props.handleClose();

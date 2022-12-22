@@ -15,3 +15,10 @@ export const ImageGalleryItem = ({ id, src, alt, onClick }) => {
     </li>
   );
 };
+
+ImageGalleryItem.propTypes = {
+  id: PropTypes.number.isRequired,
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
