@@ -26,12 +26,21 @@ export class App extends React.Component {
     if (searchQuery !== prevState.searchQuery || page !== prevState.page) {
       this.setState({ isLoading: true });
       try {
-        const morePictures = await fetchPictures(searchQuery, page);
+        const response = await fetchPictures(searchQuery, page);
+        const morePictures = response.hits.map(
+          ({ id, webformatURL, tags, largeImageURL }) => ({
+            id,
+            webformatURL,
+            tags,
+            largeImageURL,
+          })
+        );
         this.setState({
-          pictures: [...pictures, ...morePictures.hits],
+          pictures: [...pictures, ...morePictures],
           error: '',
-          totalPages: morePictures.totalHits,
+          totalPages: response.totalHits,
         });
+        console.log(this.state.pictures);
       } catch (error) {
         this.setState({ error: error.message });
       } finally {
