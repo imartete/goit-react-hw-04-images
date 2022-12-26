@@ -1,5 +1,5 @@
 import React from 'react';
-import { fetchPictures, fetchPictureById } from 'utils/api';
+import { fetchPictures } from 'utils/api';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Loader } from 'components/Loader/Loader';
@@ -7,12 +7,13 @@ import { Button } from 'components/Button/Button';
 import { Modal } from 'components/Modal/Modal';
 import { Section } from 'components/Section/Section';
 import { Notification } from 'components/Notification/Notification';
+import { Error } from 'components/Error/Error';
 
 export class App extends React.Component {
   state = {
     pictures: [],
     isLoading: false,
-    error: null,
+    error: '',
     searchQuery: '',
     page: 1,
     picture: null,
@@ -28,10 +29,11 @@ export class App extends React.Component {
         const morePictures = await fetchPictures(searchQuery, page);
         this.setState({
           pictures: [...pictures, ...morePictures.hits],
+          error: '',
           totalPages: morePictures.totalHits,
         });
       } catch (error) {
-        this.setState({ error });
+        this.setState({ error: error.message });
       } finally {
         this.setState({ isLoading: false });
       }
@@ -57,8 +59,15 @@ export class App extends React.Component {
   };
 
   render() {
-    const { pictures, isLoading, picture, totalPages, page, searchQuery } =
-      this.state;
+    const {
+      pictures,
+      isLoading,
+      picture,
+      totalPages,
+      page,
+      searchQuery,
+      error,
+    } = this.state;
 
     const picturesExist = pictures.length > 0;
     const notOnLastPage = page < totalPages / 12;
@@ -67,7 +76,12 @@ export class App extends React.Component {
       <div>
         <Searchbar onSubmit={this.registerSearchQuery} />
         {isLoading && <Loader />}
-        {!pictures.length && searchQuery && (
+        {error && (
+          <Section>
+            <Error message={error} />
+          </Section>
+        )}
+        {!pictures.length && searchQuery && !error && (
           <Section>
             <Notification />
           </Section>
