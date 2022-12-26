@@ -60,7 +60,7 @@ export class Searchbar extends React.Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            onChange={this.handleChange}
+            onInput={this.handleChange}
           />
         </form>
         <ToastContainer />

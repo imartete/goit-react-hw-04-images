@@ -40,7 +40,6 @@ export class App extends React.Component {
           error: '',
           totalPages: response.totalHits,
         });
-        console.log(this.state.pictures);
       } catch (error) {
         this.setState({ error: error.message });
       } finally {
@@ -50,7 +49,11 @@ export class App extends React.Component {
   }
 
   registerSearchQuery = searchQuery => {
-    this.setState({ searchQuery, page: 1, pictures: [] });
+    this.setState(prevState => {
+      if (prevState.searchQuery !== searchQuery) {
+        return { searchQuery, page: 1, pictures: [] };
+      }
+    });
   };
 
   handlePagination = () => {
