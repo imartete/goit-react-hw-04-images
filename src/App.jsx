@@ -21,28 +21,6 @@ export class App extends React.Component {
     totalPages: null,
   };
 
-  registerSearchQuery = searchQuery => {
-    this.setState({ searchQuery, page: 1, pictures: [] });
-  };
-
-  handlePagination = () => {
-    this.setState({ page: this.state.page + 1 });
-  };
-
-  handleImageClick = id => {
-    this.setState({
-      id,
-    });
-
-    this.toggleModal();
-  };
-
-  toggleModal = () => {
-    this.setState({
-      showModal: !this.state.showModal,
-    });
-  };
-
   async componentDidUpdate(prevProps, prevState) {
     const { searchQuery, pictures, page, id } = this.state;
 
@@ -89,6 +67,28 @@ export class App extends React.Component {
       }
     }
   }
+
+  registerSearchQuery = searchQuery => {
+    this.setState({ searchQuery, page: 1, pictures: [] });
+  };
+
+  handlePagination = () => {
+    this.setState({ page: this.state.page + 1 });
+  };
+
+  handleImageClick = id => {
+    this.setState({
+      id,
+    });
+
+    this.toggleModal();
+  };
+
+  toggleModal = () => {
+    this.setState({
+      showModal: !this.state.showModal,
+    });
+  };
 
   render() {
     const {
