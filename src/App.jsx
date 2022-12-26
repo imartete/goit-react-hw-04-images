@@ -24,27 +24,28 @@ export class App extends React.Component {
   async componentDidUpdate(prevProps, prevState) {
     const { searchQuery, pictures, page, id } = this.state;
 
-    if (searchQuery !== prevState.searchQuery) {
-      this.setState({ isLoading: true });
-      try {
-        const pictures = await fetchPictures(searchQuery, page);
-        this.setState({
-          pictures: pictures.hits,
-          totalPages: pictures.totalHits,
-        });
-      } catch (error) {
-        this.setState({ error });
-      } finally {
-        this.setState({ isLoading: false });
-      }
-    }
+    // if (searchQuery !== prevState.searchQuery) {
+    //   this.setState({ isLoading: true });
+    //   try {
+    //     const pictures = await fetchPictures(searchQuery, page);
+    //     this.setState({
+    //       pictures: pictures.hits,
 
-    if (page !== prevState.page) {
+    //     });
+    //   } catch (error) {
+    //     this.setState({ error });
+    //   } finally {
+    //     this.setState({ isLoading: false });
+    //   }
+    // }
+
+    if (searchQuery !== prevState.searchQuery || page !== prevState.page) {
       this.setState({ isLoading: true });
       try {
         const morePictures = await fetchPictures(searchQuery, page);
         this.setState({
           pictures: [...pictures, ...morePictures.hits],
+          totalPages: morePictures.totalHits,
         });
       } catch (error) {
         this.setState({ error });
