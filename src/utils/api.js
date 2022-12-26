@@ -16,14 +16,3 @@ export async function fetchPictures(input, page) {
 
   return response.data;
 }
-
-export async function fetchPictureById(id) {
-  const response = await axios.get(BASE_URL, {
-    params: {
-      key: '31296497-f77e3cd3a2890044dbd34d20b',
-      id: id,
-    },
-  });
-
-  return response.data.hits;
-}
