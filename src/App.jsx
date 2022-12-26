@@ -22,7 +22,7 @@ export class App extends React.Component {
   };
 
   registerSearchQuery = searchQuery => {
-    this.setState({ searchQuery });
+    this.setState({ searchQuery, page: 1, pictures: [] });
   };
 
   handlePagination = () => {
