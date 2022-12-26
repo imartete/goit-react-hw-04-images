@@ -1,0 +1,18 @@
+.error_placeholder {
+  margin: 0 auto;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 400px;
+  height: 400px;
+  width: 100%;
+  color: #eaeaea;
+  background-image: url('https://i.pinimg.com/originals/17/9b/8b/179b8bd5c90805aaeb08db6a17fff678.png');
+}
+
+.error_text {
+  text-align: center;
+  color: red;
+  font-weight: 700;
+  font-size: 32px;
+}
