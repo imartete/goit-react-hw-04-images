@@ -15,29 +15,12 @@ export class App extends React.Component {
     error: null,
     searchQuery: '',
     page: 1,
-    id: null,
-    showModal: false,
-    picture: [],
+    picture: null,
     totalPages: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    const { searchQuery, pictures, page, id } = this.state;
-
-    // if (searchQuery !== prevState.searchQuery) {
-    //   this.setState({ isLoading: true });
-    //   try {
-    //     const pictures = await fetchPictures(searchQuery, page);
-    //     this.setState({
-    //       pictures: pictures.hits,
-
-    //     });
-    //   } catch (error) {
-    //     this.setState({ error });
-    //   } finally {
-    //     this.setState({ isLoading: false });
-    //   }
-    // }
+    const { searchQuery, pictures, page } = this.state;
 
     if (searchQuery !== prevState.searchQuery || page !== prevState.page) {
       this.setState({ isLoading: true });
@@ -46,20 +29,6 @@ export class App extends React.Component {
         this.setState({
           pictures: [...pictures, ...morePictures.hits],
           totalPages: morePictures.totalHits,
-        });
-      } catch (error) {
-        this.setState({ error });
-      } finally {
-        this.setState({ isLoading: false });
-      }
-    }
-
-    if (id !== prevState.id) {
-      this.setState({ isLoading: true });
-      try {
-        const picture = await fetchPictureById(id);
-        this.setState({
-          picture: picture,
         });
       } catch (error) {
         this.setState({ error });
@@ -77,30 +46,19 @@ export class App extends React.Component {
     this.setState({ page: this.state.page + 1 });
   };
 
-  handleImageClick = id => {
-    this.setState({
-      id,
-    });
-
-    this.toggleModal();
+  handleImageClick = picture => {
+    this.setState({ picture });
   };
 
-  toggleModal = () => {
+  closeModal = () => {
     this.setState({
-      showModal: !this.state.showModal,
+      picture: null,
     });
   };
 
   render() {
-    const {
-      pictures,
-      isLoading,
-      showModal,
-      picture,
-      totalPages,
-      page,
-      searchQuery,
-    } = this.state;
+    const { pictures, isLoading, picture, totalPages, page, searchQuery } =
+      this.state;
 
     const picturesExist = pictures.length > 0;
     const notOnLastPage = page < totalPages / 12;
@@ -116,7 +74,7 @@ export class App extends React.Component {
         )}
         {picturesExist && (
           <Section>
-            <ImageGallery images={pictures} getId={this.handleImageClick} />
+            <ImageGallery images={pictures} getModal={this.handleImageClick} />
           </Section>
         )}
         {picturesExist && notOnLastPage && (
@@ -124,8 +82,8 @@ export class App extends React.Component {
             <Button onClick={this.handlePagination}></Button>
           </Section>
         )}
-        {showModal && (
-          <Modal handleClose={this.toggleModal} pictureArr={picture} />
+        {picture && (
+          <Modal handleClose={this.closeModal} pictureObj={picture} />
         )}
       </div>
     );

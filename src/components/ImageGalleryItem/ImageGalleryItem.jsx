@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import 'styles.css';
 
-export const ImageGalleryItem = ({ id, src, alt, onClick }) => {
+export const ImageGalleryItem = ({ src, alt, onClick, modalImage }) => {
   return (
     <li className="ImageGalleryItem">
       <img
@@ -9,7 +9,7 @@ export const ImageGalleryItem = ({ id, src, alt, onClick }) => {
         src={src}
         alt={alt}
         onClick={() => {
-          onClick(id);
+          onClick({ alt, modalImage });
         }}
       />
     </li>
@@ -17,8 +17,8 @@ export const ImageGalleryItem = ({ id, src, alt, onClick }) => {
 };
 
 ImageGalleryItem.propTypes = {
-  id: PropTypes.number.isRequired,
   src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  modalImage: PropTypes.string.isRequired,
 };
