@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import usePrevious from 'hooks/usePrevious';
 import { fetchPictures } from 'utils/api';
 import { Searchbar } from 'components/Searchbar/Searchbar';
@@ -24,30 +24,31 @@ export function App() {
 
   useEffect(() => {
     if (searchQuery === '' && page === 1) return;
+    async function getPictures() {
+      try {
+        setLoading(true);
+        const response = await fetchPictures(searchQuery, page);
+        const morePictures = response.hits.map(
+          ({ id, webformatURL, tags, largeImageURL }) => ({
+            id,
+            webformatURL,
+            tags,
+            largeImageURL,
+          })
+        );
+        setPictures(prevPictures => {
+          return [...prevPictures, ...morePictures];
+        });
+        setError('');
+        setTotalPages(response.totalHits);
+      } catch (error) {
+        setError('');
+      } finally {
+        setLoading(false);
+      }
+    }
     getPictures();
   }, [searchQuery, page]);
-
-  async function getPictures() {
-    try {
-      setLoading(true);
-      const response = await fetchPictures(searchQuery, page);
-      const morePictures = response.hits.map(
-        ({ id, webformatURL, tags, largeImageURL }) => ({
-          id,
-          webformatURL,
-          tags,
-          largeImageURL,
-        })
-      );
-      setPictures([...pictures, ...morePictures]);
-      setError('');
-      setTotalPages(response.totalHits);
-    } catch (error) {
-      setError('');
-    } finally {
-      setLoading(false);
-    }
-  }
 
   function registerSearchQuery(searchQuery) {
     if (prevSearchQuery !== searchQuery) {
