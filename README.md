@@ -1,5 +1,5 @@
-# goit-react-hw-03-image-finder
+# goit-react-hw-04-images
 
-Homework 03
+Homework 04
 
-[GitHub Pages](https://imartete.github.io/goit-react-hw-03-image-finder/)
+[GitHub Pages](https://imartete.github.io/goit-react-hw-04-images/)
