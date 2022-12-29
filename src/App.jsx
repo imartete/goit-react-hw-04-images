@@ -15,12 +15,12 @@ export function App() {
   const [picture, setPicture] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(null);
+  const [totalPictures, setTotalPictures] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (searchQuery === '' && page === 1) return;
+    if (!searchQuery) return;
     async function getPictures() {
       try {
         setLoading(true);
@@ -37,7 +37,7 @@ export function App() {
           return [...prevPictures, ...morePictures];
         });
         setError('');
-        setTotalPages(response.totalHits);
+        setTotalPictures(response.totalHits);
       } catch (error) {
         setError('');
       } finally {
@@ -68,33 +68,23 @@ export function App() {
   }
 
   const picturesExist = pictures.length > 0;
-  const notOnLastPage = page < totalPages / 12;
+  const notOnLastPage = page < totalPictures / 12;
 
   return (
-    <div>
+    <>
       <Searchbar onSubmit={registerSearchQuery} />
-      {isLoading && <Loader />}
-      {error && (
-        <Section>
-          <Error message={error} />
-        </Section>
-      )}
-      {!pictures.length && searchQuery && !error && (
-        <Section>
-          <Notification />
-        </Section>
-      )}
-      {picturesExist && (
-        <Section>
+      <Section title={'Gallery'}>
+        {picturesExist && (
           <ImageGallery images={pictures} getModal={handleImageClick} />
-        </Section>
-      )}
-      {picturesExist && notOnLastPage && (
-        <Section>
+        )}
+        {picturesExist && notOnLastPage && (
           <Button onClick={handlePagination}></Button>
-        </Section>
-      )}
+        )}
+        {isLoading && <Loader />}
+        {error && <Error message={error} />}
+        {!pictures.length && searchQuery && !error && <Notification />}
+      </Section>
       {picture && <Modal handleClose={closeModal} pictureObj={picture} />}
-    </div>
+    </>
   );
 }
