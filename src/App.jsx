@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import usePrevious from 'hooks/usePrevious';
 import { fetchPictures } from 'utils/api';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
@@ -19,8 +18,6 @@ export function App() {
   const [totalPages, setTotalPages] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  const prevSearchQuery = usePrevious(searchQuery);
 
   useEffect(() => {
     if (searchQuery === '' && page === 1) return;
@@ -50,11 +47,11 @@ export function App() {
     getPictures();
   }, [searchQuery, page]);
 
-  function registerSearchQuery(searchQuery) {
-    if (prevSearchQuery !== searchQuery) {
+  function registerSearchQuery(query) {
+    if (query !== searchQuery) {
       setPictures([]);
       setPage(1);
-      setSearchQuery(searchQuery);
+      setSearchQuery(query);
     }
   }
 
